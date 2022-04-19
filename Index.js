@@ -2,7 +2,10 @@ let http = require('http');
 
 http.createServer(function (request, response) {
     console.log('Er is een request.');
-    response.writeHead(200, {'Content-Type': 'text/plain'});
+
+    let contentType = {'Content-Type': 'text/plain'};
+
+    response.writeHead(200, contentType);
 
     let exampleArray = ["item1", "item2"];
     let exampleObj = {
@@ -16,6 +19,4 @@ http.createServer(function (request, response) {
         another: "item"
     })
     response.end(json);
-}).listen(3500);
-
-console.log('De server luistert op port 3500');
+}).listen(3500, () => console.log('De server luistert op port 3500'));

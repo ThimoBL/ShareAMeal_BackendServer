@@ -1,0 +1,2 @@
+nodemon -> continue restarting application { npm i -g nodemon }
+minimist -> parameters in the cli { npm install minimist }

@@ -1,0 +1,8 @@
+{
+  "port": 3000,
+  "protocol": "http",
+  "applicationUrl": "http://localhost:3000",
+  "environmentVariables": {
+    "DBConnectionString": ""
+  }
+}
