@@ -45,10 +45,10 @@ testing:
     # # Install the node packages that our server needs.
     - npm install --no-optional
   script:
-    - echo "npm run test not ready yet"
+    # - echo "npm run test not ready yet"
     # - echo "SONAR_LOGIN_KEY = $SONAR_LOGIN_KEY"
     # - echo "SONAR_PROJECT_KEY = $SONAR_PROJECT_KEY"
-    # - npm run sonar
+    - npm run dev:watch
 #
 # Deploy to Heroku
 # DPL is a deploy tool made for continuous deployment that’s developed and used
