@@ -1,5 +1,7 @@
 let http = require('http');
 
+const port = process.env.PORT || 3000
+
 http.createServer(function (request, response) {
     console.log('Er is een request.');
 
@@ -19,4 +21,4 @@ http.createServer(function (request, response) {
         another: "item"
     })
     response.end(json);
-}).listen(3500, () => console.log('De server luistert op port 3500'));
+}).listen(port, () => console.log('De server luistert op port 3000'));
