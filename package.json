@@ -8,16 +8,11 @@
     "start:dev": "nodemon Index.js",
     "start": "nodemon index.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+ssh://git@gitlab.com/p3163/shareameal_backendserver.git"
-  },
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://gitlab.com/p3163/shareameal_backendserver/issues"
+  "devDependencies": {
+    "nodemon": "^2.0.15"
   },
-  "homepage": "https://gitlab.com/p3163/shareameal_backendserver#readme",
   "dependencies": {
     "body-parser": "^1.20.0",
     "express": "^4.17.3"
