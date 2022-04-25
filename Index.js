@@ -1,14 +1,62 @@
 const express = require('express');
 const app = express();
 
-const bodyParser = require('body-parser');
+const database = require('./Database/InMemDb')
 
 const port = process.env.PORT || 3000;
 
+const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 
-let database = [];
-let id = 0;
+//POST
+app.post('/api/user', (req, res) => {
+    database.createUser(req.body, (error, result) => {
+        if (error) {
+            console.log(`index.js: ${error}`)
+            res.status(401).json({
+                statusCode: 401,
+                error,
+            })
+        }
+        if (result) {
+            console.log(`index.js: movie successfully added!`)
+            res.status(201).json({
+                statusCode: 201,
+                result,
+            })
+        }
+    })
+});
+
+app.post('/api/auth/login', (req, res) => {
+    res.status(401).json({
+        statusCode: 401,
+        Error: 'Deze functionaliteit is nog niet geimplementeerd'
+    });
+    // if (req.body.emailAdress && req.body.password) {
+    //     database.login(req.body.emailAdress, req.body.password, (error, result) => {
+    //         if (error) {
+    //             console.log(`index.js: ${error}`)
+    //             res.status(401).json({
+    //                 statusCode: 401,
+    //                 error,
+    //             })
+    //         }
+    //         if (result) {
+    //             console.log(`index.js: user successfully logged in!`)
+    //             res.status(201).json({
+    //                 statusCode: 201,
+    //                 result,
+    //             })
+    //         }
+    //     })
+    // } else {
+    //     res.status(401).json({
+    //         statusCode: 401,
+    //         error: 'Parameters missing in body',
+    //     })
+    // }
+})
 
 //GET
 app.get('/', (req, res) => {
@@ -17,55 +65,89 @@ app.get('/', (req, res) => {
         result: "Hello World!"
     });
 });
-app.get('/api/movie', (req, res) => {
-    res.status(200).json({
-        status: 200,
-        result: database
-    });
-});
-app.get('/api/movie/:movieId', (req, res) => {
-    let movie = database.filter(item => item.id == req.params.movieId);
-    if (movie.length > 0 ) {
-        console.log(movie);
+
+app.get('/api/user', (req, res) => {
+    //Check if user is logged in
+    database.listUsers((error, result) => {
+        console.log(`index.js: all movies shown!`)
         res.status(200).json({
-            status: 200,
-            result: movie
+            statusCode: 200,
+            result,
         })
-    } else {
-        res.status(404).json({
-            status: 404,
-            result: `Movie with id ${req.params.movieId} not found`
-        })
-    }
-
+    })
 })
 
-//POST
-app.post('/api/movie', (req, res, next) => {
-    let movie = req.body;
-    console.log(movie);
-    id++;
-
-    movie = {
-        id,
-        ...movie,
-    };
-
-    database.push(movie);
-    res.status(201).json({
-        status: 201,
-        result: database
+app.get('/api/user/profile', (req, res) => {
+    res.status(401).json({
+        statusCode: 401,
+        Error: 'Deze functionaliteit is nog niet geimplementeerd'
     });
 })
+
+app.get('/api/user/:userId', (req, res) => {
+    database.getUserById(req.params.userId, (error, result) => {
+        if (error) {
+            console.log(`index.js: ${error}`)
+            res.status(401).json({
+                statusCode: 401,
+                error,
+            })
+        }
+        if (result) {
+            console.log(`index.js: user successfully shown!`)
+            res.status(200).json({
+                statusCode: 200,
+                result,
+            })
+        }
+    })
+});
 
 //PUT
-app.put('/user', (req, res) => {
-    res.send('Got a PUT request at /user');
+app.put('/api/user/:userId', (req, res) => {
+    database.updateUser(req.params.userId, req.body, (error, result) => {
+        if (error) {
+            console.log(`index.js: ${error}`)
+            if (error == 'User is allowed to edit id.') {
+                res.status(400).json({
+                    statusCode: 401,
+                    error,
+                })
+            } else {
+                res.status(403).json({
+                    statusCode: 403,
+                    error,
+                })
+            }
+        }
+        if (result) {
+            console.log(`index.js: user successfully updated!`)
+            res.status(200).json({
+                statusCode: 200,
+                result,
+            })
+        }
+    })
 });
 
 //DELETE
-app.delete('/user', (req, res) => {
-    res.send('Got a DELETE request at /user');
+app.delete('/api/user/:userId', (req, res) => {
+    database.deleteUser(req.params.userId, (error, result) => {
+        if (error) {
+            console.log(`index.js: ${error}`)
+            res.status(401).json({
+                statusCode: 401,
+                error,
+            })
+        }
+        if (result) {
+            console.log(`index.js: user successfully deleted!`)
+            res.status(200).json({
+                statusCode: 200,
+                result,
+            })
+        }
+    })
 });
 
 //ALL METHODS (GET, POST, PUT & DELETE)
