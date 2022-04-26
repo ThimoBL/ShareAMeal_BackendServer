@@ -23,7 +23,7 @@ router.get('/api/user/profile', (req, res) => {
 router.get('/api/user/:userId', userController.getUserById);
 
 //POST
-router.post('/api/user', userController.addUser);
+router.post('/api/user', userController.validateUser, userController.addUser);
 
 router.post('/api/auth/login', (req, res) => {
     res.status(401).json({

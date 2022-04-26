@@ -12,6 +12,13 @@ app.use(bodyParser.json());
 
 app.use(UserRouter);
 
+//ERROR HANDLER
+app.use((err, req, res, next) => {
+    res.status(err.status).json({
+        error: err
+    });
+})
+
 //ALL METHODS (GET, POST, PUT & DELETE)
 app.all('/secret', (req, res, next) => {
     console.log('Accessing the secret section ...')
