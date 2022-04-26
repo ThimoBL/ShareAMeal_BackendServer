@@ -1,6 +1,7 @@
 const express = require('express');
 const database = require("../../Database/InMemDb");
 const router = express.Router();
+const userController = require('../controllers/user.controller');
 
 //GET
 router.get('/', (req, res) => {
@@ -10,16 +11,7 @@ router.get('/', (req, res) => {
     });
 });
 
-router.get('/api/user', (req, res) => {
-    //Check if user is logged in
-    database.listUsers((error, result) => {
-        console.log(`index.js: all movies shown!`)
-        res.status(200).json({
-            statusCode: 200,
-            result,
-        })
-    })
-})
+router.get('/api/user', userController.getAllUsers);
 
 router.get('/api/user/profile', (req, res) => {
     res.status(401).json({
@@ -28,44 +20,10 @@ router.get('/api/user/profile', (req, res) => {
     });
 })
 
-router.get('/api/user/:userId', (req, res) => {
-    database.getUserById(req.params.userId, (error, result) => {
-        if (error) {
-            console.log(`index.js: ${error}`)
-            res.status(401).json({
-                statusCode: 401,
-                error,
-            })
-        }
-        if (result) {
-            console.log(`index.js: user successfully shown!`)
-            res.status(200).json({
-                statusCode: 200,
-                result,
-            })
-        }
-    })
-});
+router.get('/api/user/:userId', userController.getUserById);
 
 //POST
-router.post('/api/user', (req, res) => {
-    database.createUser(req.body, (error, result) => {
-        if (error) {
-            console.log(`index.js: ${error}`)
-            res.status(401).json({
-                statusCode: 401,
-                error,
-            })
-        }
-        if (result) {
-            console.log(`index.js: movie successfully added!`)
-            res.status(201).json({
-                statusCode: 201,
-                result,
-            })
-        }
-    })
-});
+router.post('/api/user', userController.addUser);
 
 router.post('/api/auth/login', (req, res) => {
     res.status(401).json({
