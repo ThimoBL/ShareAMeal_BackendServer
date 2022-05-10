@@ -178,4 +178,8 @@ module.exports = {
             }
         }, timeout)
     },
+
+    deleteAllUsers() {
+        _userDb.length = 0;
+    },
 }

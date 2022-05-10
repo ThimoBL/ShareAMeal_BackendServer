@@ -1,9 +1,10 @@
 const express = require('express');
 const app = express();
+require('dotenv').config();
 
 const database = require('./Database/InMemDb')
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT
 
 const UserRouter = require('./src/routes/movie.routes');
 
@@ -14,9 +15,7 @@ app.use(UserRouter);
 
 //ERROR HANDLER
 app.use((err, req, res, next) => {
-    res.status(err.status).json({
-        error: err
-    });
+    res.status(err.statusCode).json(err);
 })
 
 //ALL METHODS (GET, POST, PUT & DELETE)
@@ -42,3 +41,5 @@ app.use((err, req, res, next) => {
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
 });
+
+module.exports = app;
