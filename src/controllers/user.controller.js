@@ -197,7 +197,7 @@ let userController = {
             next();
         } catch (e) {
             const error = {
-                statusCode: 400,
+                statusCode: 404,
                 result: e.message
             };
             next(error);
