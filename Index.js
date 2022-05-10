@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 require('dotenv').config();
 
-const database = require('./Database/InMemDb')
+const database = require('./Database/dbconnection')
 
 const port = process.env.PORT
 

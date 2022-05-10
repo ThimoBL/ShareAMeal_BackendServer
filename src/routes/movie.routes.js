@@ -1,5 +1,5 @@
 const express = require('express');
-const database = require("../../Database/InMemDb");
+const database = require("../../Database/dbconnection");
 const router = express.Router();
 const userController = require('../controllers/user.controller');
 
