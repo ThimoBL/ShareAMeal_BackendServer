@@ -23,7 +23,7 @@ describe('Manage users', () => {
                 .end((err, res) => {
                     res.should.be.an('object');
                     let {statusCode, result} = res.body
-                    statusCode.should.equal(400);
+                    statusCode.should.equal(404);
                     result.should.be.a('string').that.equals('FirstName must be string');
                     done();
                 });
@@ -44,7 +44,7 @@ describe('Manage users', () => {
                 .end((err, res) => {
                     res.should.be.an('object');
                     let {statusCode, result} = res.body
-                    statusCode.should.equal(400);
+                    statusCode.should.equal(404);
                     result.should.be.a('string').that.equals('LastName must be string');
                     done();
                 });
@@ -65,7 +65,7 @@ describe('Manage users', () => {
                 .end((err, res) => {
                     res.should.be.an('object');
                     let {statusCode, result} = res.body
-                    statusCode.should.equal(400);
+                    statusCode.should.equal(404);
                     result.should.be.a('string').that.equals('isActive must be boolean');
                     done();
                 });
@@ -126,7 +126,7 @@ describe('Manage users', () => {
                 .end((err, res) => {
                     res.should.be.an('object');
                     let {statusCode, result} = res.body
-                    statusCode.should.equal(400);
+                    statusCode.should.equal(404);
                     result.should.be.a('string').that.equals('Password must be string');
                     done();
                 });
@@ -147,7 +147,7 @@ describe('Manage users', () => {
                 .end((err, res) => {
                     res.should.be.an('object');
                     let {statusCode, result} = res.body
-                    statusCode.should.equal(400);
+                    statusCode.should.equal(404);
                     result.should.be.a('string').that.equals('EmailAdress must be string');
                     done();
                 });
@@ -168,7 +168,7 @@ describe('Manage users', () => {
                 .end((err, res) => {
                     res.should.be.an('object');
                     let {statusCode, result} = res.body
-                    statusCode.should.equal(400);
+                    statusCode.should.equal(404);
                     result.should.be.a('string').that.equals(`EmailAdress is invalid and must contain '@'`);
                     done();
                 });
@@ -189,7 +189,7 @@ describe('Manage users', () => {
                 .end((err, res) => {
                     res.should.be.an('object');
                     let {statusCode, result} = res.body
-                    statusCode.should.equal(400);
+                    statusCode.should.equal(404);
                     result.should.be.a('string').that.equals(`EmailAdress is invalid and must contain '.' after '@'`);
                     done();
                 });
