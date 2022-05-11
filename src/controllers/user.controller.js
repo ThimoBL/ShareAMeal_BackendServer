@@ -12,7 +12,7 @@ let userController = {
 
             connection.query(
                 `INSERT INTO user (firstName, lastName, isActive, emailAdress, password, phoneNumber, roles, street, city) ` +
-                `VALUES ('${user.firstName}', '${user.lastName}', '${user.isActive}', '${user.emailAdress}', '${user.password}', '${user.phoneNumber ?? ''}', '${user.roles ?? ''}', '${user.street}', '${user.city}');`,
+                `VALUES ('${user.firstName}', '${user.lastName}', '${user.isActive ? 1 : 0}', '${user.emailAdress}', '${user.password}', '${user.phoneNumber ?? ''}', '${user.roles ?? ''}', '${user.street}', '${user.city}');`,
                 (error, results, fields) => {
                     // When done with the connection, release it.
                     connection.release()
@@ -58,6 +58,9 @@ let userController = {
 
                     // Don't use the connection here, it has been returned to the pool.
                     console.log('#results = ', results.length)
+                    for (let i = 0; i < results.length; i++) {
+                        results[i].isActive = results[i].isActive === 1;
+                    }
                     res.status(200).json({
                         statusCode: 200,
                         results: results,
@@ -88,6 +91,7 @@ let userController = {
                         })
                     } else {
                         // Don't use the connection here, it has been returned to the pool.
+                        results[0].isActive = results[0].isActive === 1;
                         res.status(200).json({
                             statusCode: 200,
                             results: results,
@@ -106,7 +110,7 @@ let userController = {
             let user = req.body;
 
             connection.query(
-                `UPDATE user SET firstName = '${user.firstName}', lastName = '${user.firstName}', isActive = '${user.isActive}', emailAdress = '${user.emailAdress}', password = '${user.password}', phoneNumber = '${user.phoneNumber ?? ''}', roles = '${user.roles ?? ''}', street = '${user.street}', city = '${user.city}' WHERE id = ${req.params.id}`,
+                `UPDATE user SET firstName = '${user.firstName}', lastName = '${user.firstName}', isActive = '${user.isActive ? 1 : 0}', emailAdress = '${user.emailAdress}', password = '${user.password}', phoneNumber = '${user.phoneNumber ?? ''}', roles = '${user.roles ?? ''}', street = '${user.street}', city = '${user.city}' WHERE id = ${req.params.id}`,
                 (error, results, fields) => {
                     // When done with the connection, release it.
                     connection.release()

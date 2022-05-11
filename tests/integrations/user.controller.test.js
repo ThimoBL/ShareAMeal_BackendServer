@@ -7,7 +7,7 @@ chai.should();
 chai.use(chaiHttp);
 
 describe('Manage users', () => {
-    describe('Add users', () => {
+    describe('TC 201 - Should require all required fields', () => {
         it('Should require FirstName.', (done) => {
             chai.request(server)
                 .post('/api/user')
@@ -70,46 +70,6 @@ describe('Manage users', () => {
                     done();
                 });
         });
-
-        // it('Should require Street.', (done) => {
-        //     chai.request(server)
-        //         .post('/api/user')
-        //         .send({
-        //             "firstName": "John",
-        //             "lastName": "Doe",
-        //             // "street": "Lovensdijkstraat 61",
-        //             "city": "Breda",
-        //             "password": "secret",
-        //             "emailAdress": "j.doe@server.con"
-        //         })
-        //         .end((err, res) => {
-        //             res.should.be.an('object');
-        //             let { statusCode, result } = res.body
-        //             statusCode.should.equal(400);
-        //             result.should.be.a('string').that.equals('Street must be string');
-        //             done();
-        //         });
-        // });
-
-        // it('Should require City.', (done) => {
-        //     chai.request(server)
-        //         .post('/api/user')
-        //         .send({
-        //             "firstName": "John",
-        //             "lastName": "Doe",
-        //             "street": "Lovensdijkstraat 61",
-        //             // "city": "Breda",
-        //             "password": "secret",
-        //             "emailAdress": "j.doe@server.con"
-        //         })
-        //         .end((err, res) => {
-        //             res.should.be.an('object');
-        //             let { statusCode, result } = res.body
-        //             statusCode.should.equal(400);
-        //             result.should.be.a('string').that.equals('City must be string');
-        //             done();
-        //         });
-        // });
 
         it('Should require Password.', (done) => {
             chai.request(server)
