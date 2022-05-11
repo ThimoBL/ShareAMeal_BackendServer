@@ -6,7 +6,7 @@ let userController = {
     addUser: (req, res) => {
 
         dbconnection.getConnection((err, connection) => {
-            if (err) throw err // not connected!
+            // if (err) throw err // not connected!
 
             let user = req.body;
 
@@ -19,7 +19,6 @@ let userController = {
 
                     // Handle error after the release.
                     if (error && error.errno === 1062) {
-                        console.log(error)
                         return res.status(409).json({
                             statusCode: 409,
                             error: `A user already exists with that Email.`,
@@ -131,8 +130,8 @@ let userController = {
                             error: "Geen gebruiker gevonden voor ingevoerde id"
                         })
                     } else {
-                        res.status(201).json({
-                            statusCode: 201,
+                        res.status(200).json({
+                            statusCode: 200,
                             results: `User ${user.firstName} ${user.lastName} has been updated!`,
                         })
                     }
@@ -154,18 +153,25 @@ let userController = {
                     connection.release()
 
                     // Handle error after the release.
-                    if (error) throw error;
+                    if (error && error.errno === 1451) {
+                        return res.status(200).json({
+                            statusCode: 200,
+                            results: `user successfully deleted!`,
+                        })
+                    } else if (error) {
+                        throw error;
+                    }
 
                     // Don't use the connection here, it has been returned to the pool.
                     if (results && results.affectedRows > 0) {
-                        res.status(200).json({
+                        return res.status(200).json({
                             statusCode: 200,
-                            results: `${results.affectedRows} rows deleted for id: ${req.params.id}`,
+                            results: `user successfully deleted!`,
                         })
                     } else {
-                        res.status(401).json({
-                            statusCode: 401,
-                            error: `No row found for id: ${req.params.id}`,
+                        return res.status(400).json({
+                            statusCode: 400,
+                            error: `No row found`,
                         })
                     }
                 }
@@ -201,7 +207,7 @@ let userController = {
             next();
         } catch (e) {
             const error = {
-                statusCode: 404,
+                statusCode: 400,
                 result: e.message
             };
             next(error);
