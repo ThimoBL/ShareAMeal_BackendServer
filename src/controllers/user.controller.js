@@ -22,9 +22,7 @@ let userController = {
                             statusCode: 409,
                             error: `A user already exists with that Email.`,
                         })
-                    }
-
-                    if (error) {
+                    } else if (error) {
                         return res.status(400).json({
                             statusCode: 400,
                             error: error,
