@@ -1,4 +1,3 @@
-const database = require("../../Database/InMemDb");
 const dbconnection = require('../../Database/dbconnection')
 const assert = require('assert');
 

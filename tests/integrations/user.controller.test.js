@@ -1,7 +1,7 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const server = require('../../Index');
-const database = require("../../Database/InMemDb");
+const database = require("../../Database/dbconnection");
 
 chai.should();
 chai.use(chaiHttp);
