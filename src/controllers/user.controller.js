@@ -39,18 +39,41 @@ let userController = {
     },
 
     getAllUsers: (req, res, next) => {
+        console.log(req.query);
+        let {firstName, isActive, length} = req.query;
+        let queryString = 'SELECT * FROM user';
+
+        if (firstName || isActive) {
+            queryString += ' WHERE';
+            if (firstName) {
+                queryString += ` firstName LIKE '%${firstName}%'`;
+            }
+            if (firstName && isActive) {
+                queryString += ' AND'
+            }
+            if (isActive) {
+                queryString += ` isActive LIKE '%${isActive === 'true' ? 1 : 0}%'`;
+            }
+        }
+
+        if (length) {
+            queryString += ` LIMIT ${length}`
+        }
+
+        console.log(queryString);
 
         dbconnection.getConnection((err, connection) => {
-            if (err) throw err // not connected!
+            if (err) next(err); // not connected!
 
             connection.query(
-                'SELECT * FROM user;',
+                queryString,
+                [firstName, isActive],
                 (error, results, fields) => {
                     // When done with the connection, release it.
                     connection.release()
 
                     // Handle error after the release.
-                    if (error) throw error;
+                    if (error) next(error);
 
                     // Don't use the connection here, it has been returned to the pool.
                     console.log('#results = ', results.length)
@@ -63,6 +86,36 @@ let userController = {
                     })
                 }
             )
+        })
+    },
+
+    getUserProfile: (req, res, next) => {
+        dbconnection.getConnection((err, connection) => {
+            if (err) next(err); // not connected!
+
+            connection.query(
+                `SELECT * FROM user WHERE id = ${req.userId}`,
+                (error, results, fields) => {
+                    // When done with the connection, release it.
+                    connection.release()
+
+                    // Handle error after the release.
+                    if (error) next(error);
+
+                    if (results && results.length > 0) {
+
+                        results[0].isActive = results[0].isActive === 1;
+                        return res.status(200).json({
+                            statusCode: 200,
+                            results: results[0],
+                        });
+                    } else {
+                        return res.status(401).json({
+                            statusCode: 401,
+                            message: `Can't find profile`,
+                        });
+                    }
+                })
         })
     },
 
@@ -99,6 +152,13 @@ let userController = {
     },
 
     updateUser: (req, res, next) => {
+
+        if (/^((\+|00(\s|\s?\-\s?)?)31(\s|\s?\-\s?)?(\(0\)[\-\s]?)?|0)[1-9]((\s|\s?\-\s?)?[0-9])((\s|\s?-\s?)?[0-9])((\s|\s?-\s?)?[0-9])\s?[0-9]\s?[0-9]\s?[0-9]\s?[0-9]\s?[0-9]$/.test(req.body.phoneNumber) === false) {
+            return res.status(400).json({
+                statusCode: 400,
+                results: 'PhoneNumber is invalid'
+            })
+        }
 
         dbconnection.getConnection((err, connection) => {
             if (err) throw err // not connected!
@@ -142,6 +202,13 @@ let userController = {
 
         dbconnection.getConnection((err, connection) => {
             if (err) throw err // not connected!
+
+            if (req.params.id != req.userId) {
+                return res.status(403).json({
+                    statusCode: 403,
+                    results: `Not authorized to delete the user.`,
+                });
+            }
 
             connection.query(
                 `DELETE FROM user WHERE id = ${req.params.id}`,

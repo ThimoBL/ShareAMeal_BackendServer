@@ -6,12 +6,14 @@ const database = require('./Database/dbconnection')
 
 const port = process.env.PORT
 
-const UserRouter = require('./src/routes/movie.routes');
+const UserRouter = require('./src/routes/user.routes');
+const AuthRouter = require('./src/routes/auth.routes');
 
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 
 app.use(UserRouter);
+app.use(AuthRouter);
 
 //ERROR HANDLER
 app.use((err, req, res, next) => {
@@ -34,8 +36,11 @@ app.use((req, res, next) => {
 
 //ERROR OCCURRED
 app.use((err, req, res, next) => {
-    console.error(err.stack)
-    res.status(500).send('Something broke!')
+    console.error(err.toString())
+    res.status(500).json({
+        statusCode: 500,
+        message: err.toString(),
+    })
 })
 
 app.listen(port, () => {
