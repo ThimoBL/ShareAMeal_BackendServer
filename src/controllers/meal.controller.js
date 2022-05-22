@@ -28,6 +28,13 @@ let mealController = {
             return mealObject[key];
         });
 
+        if (req.body.datetime.includes("T") || req.body.datetime.includes("Z")) {
+            return res.status(400).json({
+                statusCode: 400,
+                results: `Datetime is not in the right format!`
+            })
+        }
+
         dbconnection.getConnection((err, connection) => {
             if (err) throw (err);
 
