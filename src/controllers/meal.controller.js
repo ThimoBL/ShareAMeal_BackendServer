@@ -29,7 +29,7 @@ let mealController = {
         });
 
         dbconnection.getConnection((err, connection) => {
-            if (err) next(err);
+            if (err) throw (err);
 
             const query = `INSERT INTO meal (name, description, isActive, isVega, isVegan, isToTakeHome, dateTime, imageUrl, allergenes, maxAmountOfParticipants, price, cookId) VALUES (?);`;
 
@@ -39,7 +39,7 @@ let mealController = {
                 (error, results, fields) => {
                     connection.release();
 
-                    if (error) next(error);
+                    if (error) throw (error);
 
                     logger.debug(`Query results: ${results}`)
 
