@@ -11,6 +11,10 @@ let mealController = {
             for (let i = 0; i < req.body.allergenes.length; i++) {
                 allergenesString += req.body.allergenes[i] + ",";
             }
+
+            if (allergenesString.equals !== "") {
+                allergenesString = allergenesString.slice(0, -1);
+            }
         }
 
         req.body.allergenes = allergenesString;
