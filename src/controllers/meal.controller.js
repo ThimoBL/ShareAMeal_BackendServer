@@ -31,6 +31,13 @@ let mealController = {
         dbconnection.getConnection((err, connection) => {
             if (err) throw (err);
 
+            if (req.body.dateTime.includes("T") || req.body.dateTime.includes("Z")) {
+                return res.status(400).json({
+                    statusCode: 400,
+                    results: `Datetime is not in the right format!`
+                })
+            }
+
             const query = `INSERT INTO meal (name, description, isActive, isVega, isVegan, isToTakeHome, dateTime, imageUrl, allergenes, maxAmountOfParticipants, price, cookId) VALUES (?);`;
 
             connection.query(
