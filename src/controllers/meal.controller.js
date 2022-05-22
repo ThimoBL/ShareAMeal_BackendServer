@@ -10,13 +10,15 @@ let mealController = {
             for (let i = 0; i < req.body.allergenes.length; i++) {
                 allergenesString += req.body.allergenes[i] + ",";
             }
-
+            req.body.allergenes = allergenesString;
         }
         dbconnection.getConnection((err, connection) => {
             if (err) next(err);
 
+            const query = `INSERT INTO meal (name, description, isActive, isVega, isVegan, isToTakeHome, dateTime, imageUrl, allergenes, maxAmountOfParticipants, price, cookId) VALUES (?,?,?,?,?,?,?,?,?,?,?,?);`;
+
             connection.query(
-                `INSERT INTO meal (name, description, isActive, isVega, isVegan, isToTakeHome, dateTime, imageUrl, allergenes, maxAmountOfParticipants, price, cookId) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)`,
+                query,
                 [
                     req.body.name,
                     req.body.description,
@@ -26,7 +28,7 @@ let mealController = {
                     req.body.isToTakeHome,
                     req.body.dateTime,
                     req.body.imageUrl,
-                    allergenesString,
+                    req.body.allergenes,
                     req.body.maxAmountOfParticipants,
                     req.body.price,
                     req.userId,

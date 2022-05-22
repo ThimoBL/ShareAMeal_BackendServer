@@ -177,8 +177,7 @@ describe('TC Manage Meals', () => {
         });
 
         it("Lijst van maaltijden geretourneerd", (done) => {
-            chai
-                .request(server)
+            chai.request(server)
                 .get("/api/meal")
                 .end((err, res) => {
                     res.should.be.an("object");
