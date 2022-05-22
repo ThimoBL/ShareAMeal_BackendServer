@@ -1,4 +1,5 @@
-process.env.DB_DATABASE = process.env.DB_DATABASE || 'share-a-meal-testdb'
+process.env.DB_DATABASE = process.env.DB_DATABASE || 'share-a-meal-testdb';
+process.env.LOGLEVEL = "warn"; //warn
 
 const chai = require('chai');
 const jwt = require('jsonwebtoken');

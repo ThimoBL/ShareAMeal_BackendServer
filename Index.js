@@ -8,12 +8,14 @@ const port = process.env.PORT
 
 const UserRouter = require('./src/routes/user.routes');
 const AuthRouter = require('./src/routes/auth.routes');
+const MealRouter = require('./src/routes/meal.routes');
 
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 
 app.use(UserRouter);
 app.use(AuthRouter);
+app.use(MealRouter);
 
 //ERROR HANDLER
 app.use((err, req, res, next) => {
