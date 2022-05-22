@@ -62,7 +62,7 @@ let mealController = {
 
                     logger.debug(`Query results: ${results}`)
 
-                    if (results.affectedRows) {
+                    if (results.affectedRows > 0) {
                         let meal = {
                             id: results.insertId,
                             ...req.body
