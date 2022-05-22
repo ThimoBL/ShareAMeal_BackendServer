@@ -35,14 +35,15 @@ let mealController = {
                     connection.release();
 
                     if (error) next(error);
-console.log(results);
-                    if (results) {
+
+                    if (results.affectedRows) {
+                        let meal = {
+                            id: results.insertId,
+                            ...req.body
+                        };
                         return res.status(201).json({
                             statusCode: 201,
-                            results: {
-                                id: results.insertId,
-                                ...req.body
-                            }
+                            results: meal
                         })
                     } else {
                         return res.status(500).json({
