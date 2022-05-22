@@ -1,5 +1,5 @@
 const dbconnection = require('../../Database/dbconnection')
-const logger = require('../src/config/config').logger
+const logger = require('../../src/config/config').logger
 const assert = require('assert');
 
 let mealController = {
