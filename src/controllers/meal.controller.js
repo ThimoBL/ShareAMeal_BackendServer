@@ -7,24 +7,25 @@ let mealController = {
     addMeal: (req, res, next) => {
         const allergenes = req.body.allergenes;
         let allergenesString = "";
+
         for (let index = 0; index < allergenes.length; index++) {
             allergenesString += allergenes[index] + ",";
         }
+
         if (allergenesString.equals !== "") {
             allergenesString = allergenesString.slice(0, -1);
         }
+
         let mealReq = req.body;
         let cookId = req.userId;
         let mealObject = { ...mealReq, cookId };
+
         mealObject.allergenes = allergenesString;
+
         console.log(mealObject);
+
         let values = Object.keys(mealObject).map(function (key) {
             return mealObject[key];
-        });
-
-
-        let mealVal = Object.keys(meal).map(function (key) {
-            return meal[key];
         });
 
         dbconnection.getConnection((err, connection) => {
@@ -34,7 +35,7 @@ let mealController = {
 
             connection.query(
                 query,
-                [mealVal],
+                [values],
                 (error, results, fields) => {
                     connection.release();
 
