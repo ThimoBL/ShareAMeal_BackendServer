@@ -11,29 +11,28 @@ let mealController = {
             for (let i = 0; i < req.body.allergenes.length; i++) {
                 allergenesString += req.body.allergenes[i] + ",";
             }
-            req.body.allergenes = allergenesString;
         }
+
+        req.body.allergenes = allergenesString;
+
+        let cookId = req.userId;
+        let meal = {
+            ...req.body,
+            cookId
+        }
+
+        let mealVal = Object.keys(meal).map(function (key) {
+            return meal[key];
+        });
+
         dbconnection.getConnection((err, connection) => {
             if (err) next(err);
 
-            const query = `INSERT INTO meal (name, description, isActive, isVega, isVegan, isToTakeHome, dateTime, imageUrl, allergenes, maxAmountOfParticipants, price, cookId) VALUES (?,?,?,?,?,?,?,?,?,?,?,?);`;
+            const query = `INSERT INTO meal (name, description, isActive, isVega, isVegan, isToTakeHome, dateTime, imageUrl, allergenes, maxAmountOfParticipants, price, cookId) VALUES (?);`;
 
             connection.query(
                 query,
-                [
-                    req.body.name,
-                    req.body.description,
-                    req.body.isActive,
-                    req.body.isVega,
-                    req.body.isVegan,
-                    req.body.isToTakeHome,
-                    req.body.dateTime,
-                    req.body.imageUrl,
-                    req.body.allergenes,
-                    req.body.maxAmountOfParticipants,
-                    req.body.price,
-                    req.userId,
-                ],
+                [mealVal],
                 (error, results, fields) => {
                     connection.release();
 
