@@ -35,14 +35,22 @@ let mealController = {
                     connection.release();
 
                     if (error) next(error);
+console.log(results);
+                    if (results) {
+                        return res.status(201).json({
+                            statusCode: 201,
+                            results: {
+                                id: results.insertId,
+                                ...req.body
+                            }
+                        })
+                    } else {
+                        return res.status(500).json({
+                            statusCode: 500,
+                            results: `Something went terribly wrong!`
+                        })
+                    }
 
-                    return res.status(201).json({
-                        statusCode: 201,
-                        results: {
-                            id: results.insertId,
-                            ...req.body
-                        }
-                    })
                 })
         })
     },
