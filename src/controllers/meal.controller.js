@@ -5,46 +5,28 @@ const assert = require('assert');
 let mealController = {
 
     addMeal: (req, res, next) => {
-        // let allergenesString = "";
-        //
-        // if (req.body.allergenes) {
-        //     for (let i = 0; i < req.body.allergenes.length; i++) {
-        //         allergenesString += req.body.allergenes[i] + ",";
-        //     }
-        //
-        //     if (allergenesString.equals !== "") {
-        //         allergenesString = allergenesString.slice(0, -1);
-        //     }
-        // }
-        //
-        // req.body.allergenes = allergenesString;
-        //
-        // let cookId = req.userId;
-        // let meal = {
-        //     ...req.body,
-        //     cookId
-        // }
-
-        const allergenes = req.body.allergenes;
         let allergenesString = "";
-        for (let index = 0; index < allergenes.length; index++) {
-            allergenesString += allergenes[index] + ",";
+        const allergenes = req.body.allergenes;
+
+
+        for (let i = 0; i < allergenes.length; i++) {
+            allergenesString += allergenes[i] + ",";
         }
+
         if (allergenesString.equals !== "") {
             allergenesString = allergenesString.slice(0, -1);
         }
+
         let mealReq = req.body;
         let cookId = req.userId;
-        let mealObject = { ...mealReq, cookId };
-        mealObject.allergenes = allergenesString;
-        console.log(mealObject);
-        let values = Object.keys(mealObject).map(function (key) {
-            return mealObject[key];
-        });
+        let mealObj = { ...mealReq, cookId };
 
+        mealObj.allergenes = allergenesString;
 
-        let mealVal = Object.keys(meal).map(function (key) {
-            return meal[key];
+        logger.debug(mealObj);
+
+        let mealVal = Object.keys(mealObj).map(function (key) {
+            return mealObj[key];
         });
 
         dbconnection.getConnection((err, connection) => {
