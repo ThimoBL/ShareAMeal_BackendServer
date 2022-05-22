@@ -1,4 +1,5 @@
 const dbconnection = require('../../Database/dbconnection')
+const logger = require('../src/config/config').logger
 const assert = require('assert');
 
 let mealController = {
@@ -37,6 +38,8 @@ let mealController = {
                     connection.release();
 
                     if (error) next(error);
+
+                    logger.debug(`Query results: ${results}`)
 
                     if (results.affectedRows) {
                         let meal = {
