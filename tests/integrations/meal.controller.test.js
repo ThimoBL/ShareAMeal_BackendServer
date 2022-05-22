@@ -91,7 +91,7 @@ describe('TC Manage Meals', () => {
                     isVega: true,
                     isVegan: true,
                     isToTakeHome: true,
-                    dateTime: "2022-05-21T11:13:11.932Z",
+                    dateTime: "2022-05-21 11:13:11.932",
                     imageUrl: "https://miljuschka.nl/wp-content/uploads/2021/02/Pasta-bolognese-3-2.jpg",
                     allergenes: [
                         "gluten",
@@ -122,7 +122,7 @@ describe('TC Manage Meals', () => {
                     isVega: true,
                     isVegan: true,
                     isToTakeHome: true,
-                    dateTime: "2022-05-21T11:13:11.932Z",
+                    dateTime: "2022-05-21 11:13:11.932",
                     imageUrl: "https://miljuschka.nl/wp-content/uploads/2021/02/Pasta-bolognese-3-2.jpg",
                     allergenes: [
                         "gluten",
@@ -145,7 +145,7 @@ describe('TC Manage Meals', () => {
                         isVega: results.isVega,
                         isVegan: results.isVegan,
                         isToTakeHome: results.isToTakeHome,
-                        dateTime: "2022-05-21T11:13:11.932Z",
+                        dateTime: "2022-05-21 11:13:11.932",
                         imageUrl: "https://miljuschka.nl/wp-content/uploads/2021/02/Pasta-bolognese-3-2.jpg",
                         allergenes: results
                             .allergenes,
